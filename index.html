@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rock | Paper | Scissors</title>
+    <style>
+        body {
+            background-image: url('wall.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;  
+            background-size: cover;
+        }
+        .container {
+            display: flex;
+            height: 75vh;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+        h6 {    
+            font-size: medium;
+            margin-bottom: -30px;
+            text-align: center;
+        }
+        b {
+            text-align: center;
+        }
+        .option{
+            font-size: 256px;
+            border-radius: 50%;
+            text-align: center;
+        }
+        .left, .right{
+            display: flex;
+            width: 50%;
+            justify-content: center;
+            margin: 20px;
+        }
+        .bottom button{
+            border-color: transparent;
+            font-family: "Silkscreen";
+            width: 100%;
+            max-width: 256px;
+            box-shadow: 0 3px 10px #53f4ff;
+            height: 200px;
+            width: 200px;
+            border: 0;
+            border-radius: 50%;
+            background-color: #53f4ff;
+            color: #000000;
+            font-size: 48px;
+            text-align: center;
+            margin-top: -180px;
+        }
+        .bottom button:hover{
+            box-shadow: none;
+            width: 250px;
+            height: 250px;
+        }
+        .bottom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 15vh;
+        }
+    </style>
+</head>
+<body onload="loadGame()">
+    <b><h1 style="color:rgb(3, 3, 3)"> Rock Paper Scissors</h1></b>
+    <div class="container">
+        <div class="left">
+            <span id="op-1" class="option">&#9994;</span>
+            <span id="op-2" class="option">&#9995;</span>
+            <span id="op-3" class="option">&#9996;</span>
+        </div>
+        <div class="right">
+            <span id="op-4" class="option">&#9994;</span>
+            <span id="op-5" class="option">&#9995;</span>
+            <span id="op-6" class="option">&#9996;</span>
+        </div>
+    </div>
+    <div class="bottom">
+        <button onclick="play()">Start</button>
+    </div>  
+    <footer>
+        <h6 style="color:rgb(0, 0, 0)"> created by: Daniel P. Punzalan</h6>
+        <br>
+        <h6>2024</h6>
+    </footer>
+   
+    <script>
+        var elems = [];
+        var state = false;
+        
+        function loadGame() {
+            elems = [];
+        
+            for (let i = 1; i < 7; i++) {
+                const element = document.getElementById("op-" + String(i));
+                elems.push(element);
+                element.style.display = "none";
+            }
+        }
+        
+        function play() {
+            var left = Math.floor(Math.random() * 3);
+            var right = Math.floor(Math.random() * 3) + 3;
+        
+            for (let i = 1; i < 7; i++) {
+                const element = document.getElementById("op-" + String(i));
+                element.style.display = "none";
+                element.style.backgroundColor = "";
+            }
+        
+            elems[left].style.display = "inline";
+            elems[right].style.display = "inline";
+            
+            startRepeat()
+            state = true;
+        }
+        
+        function startRepeat(left, right) {
+            if (!state) {
+                var rep = setInterval(() => {
+                    play(left, right);
+                }, 100);
+        
+                endGame(rep);
+            }
+        }
+        
+        function endGame(rep) {
+            setTimeout(() => {
+                state = false;
+                clearInterval(rep);
+                showResult();
+            }, 4000);
+        }
+        
+        function showResult() {
+            var result = [];
+            var indexes = [];
+            for (let i = 0; i < elems.length; i++) {
+                const element = elems[i];
+                
+                if (element.style.display == "inline") {
+                    result.push(element);
+                    indexes.push(i % 3);
+                }
+        
+                console.log(result);
+            }
+        
+            console.log(indexes);
+            
+            if(indexes[0] == indexes[1]){
+                result[0].style.backgroundColor = "#ffff00";
+                result[1].style.backgroundColor = "#ffff00";
+            }
+            else if (indexes[0] == 0 && indexes[1] == 1) {
+                result[1].style.backgroundColor = "#00ff00";
+            }
+            else if (indexes[0] == 0 && indexes[1] == 2) {
+                result[0].style.backgroundColor = "#00ff00";
+            }
+            else if (indexes[0] == 1 && indexes[1] == 0) {
+                result[0].style.backgroundColor = "#00ff00";
+            }
+            else if (indexes[0] == 1 && indexes[1] == 2) {
+                result[1].style.backgroundColor = "#00ff00";
+            }
+            else if (indexes[0] == 2 && indexes[1] == 0) {
+                result[1].style.backgroundColor = "#00ff00";
+            }
+            else if (indexes[0] == 2 && indexes[1] == 1) {
+                result[0].style.backgroundColor = "#00ff00";
+            }
+        }
+    </script>
+</body>
+</html>
